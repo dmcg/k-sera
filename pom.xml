@@ -3,7 +3,7 @@
 
     <groupId>com.oneeyedmen</groupId>
     <artifactId>amock</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>amock</name>
@@ -33,7 +33,7 @@
         <connection>scm:git:git@github.com:dmcg/amock.git</connection>
         <developerConnection>scm:git:git@github.com:dmcg/amock.git</developerConnection>
         <url>https://github.com/dmcg/amock</url>
-      <tag>amock-1.0.0</tag>
+      <tag>HEAD</tag>
     </scm>
 
     <dependencies>
