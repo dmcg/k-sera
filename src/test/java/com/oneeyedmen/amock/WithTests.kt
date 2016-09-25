@@ -1,3 +1,5 @@
+@file:Suppress("PLATFORM_CLASS_MAPPED_TO_KOTLIN")
+
 package com.oneeyedmen.amock
 
 import com.natpryce.hamkrest.absent
@@ -71,6 +73,14 @@ class WithTests {
         assertEquals(null, sut.returnNullableString(null))
     }
 
+    @Test fun boxedInteger() {
+        val integer = Integer.valueOf(42) as Integer
+        mockery.expecting {
+            allowing(sut).returnBoxedInteger(with(integer)).which will returnFirstParameter()
+        }
+        assertEquals(integer, sut.returnBoxedInteger(integer))
+    }
+
 
 }
 
@@ -83,6 +93,7 @@ interface TestSubject {
     fun returnChar(t: Char) = t
     fun returnString(t: String) = t
     fun returnNullableString(t: String?) = t
+    fun returnBoxedInteger(t: Integer) = t
 
 }
 

@@ -12,7 +12,7 @@ class Expektations: Expectations() {
 
     inline fun <reified T: Any?> with(matcher: Matcher<T>): T {
         addParameterMatcher(matcher.asHamcrest())
-        return dummyValueOfType(T::class)
+        return dummyValue<T>()
     }
 
     val <T> T.which: WillThunker<T> get() = WillThunker()
@@ -29,6 +29,8 @@ class Expektations: Expectations() {
 
 
 }
+
+inline fun <reified T: Any?> dummyValue() = dummyValueOfType<T>(T::class)
 
 // Yuk yuk yuk yuk yuk
 @Suppress("UNCHECKED_CAST", "PLATFORM_CLASS_MAPPED_TO_KOTLIN")
