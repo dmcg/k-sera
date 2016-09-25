@@ -1,5 +1,7 @@
 # Created by .ignore support plugin (hsz.mobi)
 
+.DS_Store
+
 ### Maven template
 target/
 pom.xml.tag

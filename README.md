@@ -78,27 +78,30 @@ class AmockExampleTests {
 
     // Shall we play a game?
 
-    val panel = Panel(mockery.mock<Key>("k1"), mockery.mock<Key>("k2"), mockery.mock<Missile>())
+    val controlPanel = Panel(
+        mockery.mock<Key>("key1"),
+        mockery.mock<Key>("key2"),
+        mockery.mock<Missile>())
 
     @Test fun `specify expectations before and after action`() {
         mockery.given {
-            allowing(panel.key1).isTurned.which will returnValue(true)
-            allowing(panel.key2).isTurned.which will returnValue(true)
+            allowing(controlPanel.key1).isTurned.which will returnValue(true)
+            allowing(controlPanel.key2).isTurned.which will returnValue(true)
         }.whenRunning {
-            panel.pressButton()
+            controlPanel.pressButton()
         }.thenExpect {
-            oneOf(panel.missile).launch()
+            oneOf(controlPanel.missile).launch()
         }
     }
 
     @Test fun `better check we're safe`() {
         mockery.given {
-            allowing(panel.key1).isTurned.which will returnValue(true)
-            allowing(panel.key2).isTurned.which will returnValue(false)
+            allowing(controlPanel.key1).isTurned.which will returnValue(true)
+            allowing(controlPanel.key2).isTurned.which will returnValue(false)
         }.whenRunning {
-            panel.pressButton()
+            controlPanel.pressButton()
         }.thenExpect {
-            never(panel.missile).launch()
+            never(controlPanel.missile).launch()
         }
     }
 }
