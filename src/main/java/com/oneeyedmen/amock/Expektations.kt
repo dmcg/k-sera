@@ -6,6 +6,7 @@ import org.hamcrest.Description
 import org.jmock.Expectations
 import org.jmock.Sequence
 import kotlin.reflect.KClass
+import kotlin.reflect.KProperty1
 
 @Suppress("unused")
 class Expektations: Expectations() {
@@ -26,8 +27,15 @@ class Expektations: Expectations() {
     @Suppress("unused")
     class WillThunker<T>() // required to make the types work, see http://stackoverflow.com/q/39596420/97777
 
+    fun <T, R> allowing(mock: T, property: KProperty1<T, R>): R = property.get(allowing(mock))
 
+    fun <T, R> that(mock: T, property: KProperty1<T, R>) = allowing(mock, property)
+    fun <T> that(mock: T) = allowing(mock)
 
+    val <T> T.isEqual: PropertyThunker<T> get() = PropertyThunker()
+    class PropertyThunker<T>()
+
+    infix fun <T> PropertyThunker<T>.toValue(value: T) = super.will(com.oneeyedmen.amock.returnValue(value))
 }
 
 inline fun <reified T: Any?> dummyValue() = dummyValueOfType<T>(T::class)
