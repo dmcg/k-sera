@@ -1,5 +1,6 @@
 package com.oneeyedmen.amock
 
+import com.natpryce.hamkrest.anything
 import com.natpryce.hamkrest.greaterThan
 import com.natpryce.hamkrest.isA
 import org.jmock.integration.junit4.JUnitRuleMockery
@@ -48,9 +49,11 @@ class AmockExampleTests {
         mockery.expecting {
             oneOf(charSequence).get(0).which will returnValue('*')
             oneOf(charSequence).get(with(greaterThan(0))).which will returnValue('-')
+            oneOf(charSequence).get(with(anything)).which will returnValue('&')
         }
         assertEquals('-', charSequence.get(1))
         assertEquals('*', charSequence.get(0))
+        assertEquals('&', charSequence.get(99))
     }
 
     @Test fun `which-will can take a lambda`() {
@@ -96,14 +99,25 @@ class AmockExampleTests {
         }
     }
 
-    @Test fun `better check we're safe`() {
-        mockery.given {
-            allowing(controlPanel.key1).isTurned.which will returnValue(true)
-            allowing(controlPanel.key2).isTurned.which will returnValue(false)
+    @Test fun `check we're safe with method references`() {
+        mockery.expecting {
+            allowing(controlPanel.key1, Key::isTurned).which will returnValue(true)
+            allowing(controlPanel.key2, Key::isTurned).which will returnValue(false)
         }.whenRunning {
             controlPanel.pressButton()
         }.thenExpect {
             never(controlPanel.missile).launch()
+        }
+    }
+
+    @Test fun `*that* works on properties or calls`() {
+        mockery.given {
+            that(controlPanel.key1, Key::isTurned).isEqual toValue true
+            that(controlPanel.key2).isTurned.isEqual toValue true
+        }.whenRunning {
+            controlPanel.pressButton()
+        }.thenExpect {
+            oneOf(controlPanel.missile).launch()
         }
     }
 }
