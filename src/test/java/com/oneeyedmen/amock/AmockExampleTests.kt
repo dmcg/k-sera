@@ -89,7 +89,7 @@ class AmockExampleTests {
         mockery.mock<Missile>())
 
 
-    @Test fun `block syntax for expecting during verify`() =
+    @Test fun `block syntax for expecting-during-verify`() =
         mockery {
             expecting {
                 allowing(controlPanel.key1).isTurned.which will returnValue(true)
@@ -103,7 +103,7 @@ class AmockExampleTests {
             }
         }
 
-    @Test fun `given that allows property references`() =
+    @Test fun `given-that allows property references`() =
         mockery {
             given {
                 that(controlPanel.key1, Key::isTurned).isProperty withValue (true)
