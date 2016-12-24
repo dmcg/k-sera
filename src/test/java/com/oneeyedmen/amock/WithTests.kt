@@ -80,8 +80,6 @@ class WithTests {
         }
         assertEquals(integer, sut.returnBoxedInteger(integer))
     }
-
-
 }
 
 interface TestSubject {

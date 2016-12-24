@@ -88,39 +88,34 @@ class AmockExampleTests {
         mockery.mock<Key>("key2"),
         mockery.mock<Missile>())
 
-    @Test fun `specify expectations before and after action`() {
-        mockery.expecting {
-            allowing(controlPanel.key1).isTurned.which will returnValue(true)
-            allowing(controlPanel.key2).isTurned.which will returnValue(true)
-        }.whenRunning {
-            controlPanel.pressButton()
-        }.thenExpect {
-            oneOf(controlPanel.missile).launch()
-        }
-    }
 
-    @Test fun `check we're safe with method references`() {
-        mockery.expecting {
-            allowing(controlPanel.key1, Key::isTurned).which will returnValue(true)
-            allowing(controlPanel.key2, Key::isTurned).which will returnValue(false)
-        }.whenRunning {
-            controlPanel.pressButton()
-        }.thenExpect {
-            never(controlPanel.missile).launch()
+    @Test fun `block syntax for expecting during verify`() =
+        mockery {
+            expecting {
+                allowing(controlPanel.key1).isTurned.which will returnValue(true)
+                allowing(controlPanel.key2).isTurned.which will returnValue(true)
+            }
+            during {
+                controlPanel.pressButton()
+            }
+            verify {
+                oneOf(controlPanel.missile).launch()
+            }
         }
-    }
 
-    @Test fun `*that* works on properties or calls`() {
-        mockery.given {
-            that(controlPanel.key1, Key::isTurned).isEqual toValue true
-            that(controlPanel.key2).isTurned.isEqual toValue true
-        }.whenRunning {
-            controlPanel.pressButton()
-        }.thenExpect {
-            oneOf(controlPanel.missile).launch()
+    @Test fun `given that allows property references`() =
+        mockery {
+            given {
+                that(controlPanel.key1, Key::isTurned).isProperty withValue (true)
+                that(controlPanel.key2, Key::isTurned).isProperty withValue (false)
+            }
+            during {
+                controlPanel.pressButton()
+            }
+            verify {
+                never(controlPanel.missile).launch()
+            }
         }
-    }
-
 
 }
 //README_TEXT

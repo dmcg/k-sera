@@ -10,20 +10,39 @@ inline fun <reified T: Any> Mockery.mock(name: String): T = mock(T::class.java, 
 
 fun org.jmock.Mockery.given(expectations: Expektations.() -> Unit): Mockery = expecting(expectations)
 
-fun Mockery.expecting(expectations: Expektations.() -> Unit): Mockery {
-    this.checking(Expektations().apply(expectations))
-    return this
+fun Mockery.expecting(expectations: Expektations.() -> Unit) = this.apply {
+    checking(Expektations().apply(expectations))
 }
 
-fun Mockery.whenRunning(block: () -> Unit) = ThenClause(this, block)
+operator fun Mockery.invoke(init: BetterSyntax.() -> Unit) {
+    BetterSyntax(this).init()
+    assertIsSatisfied()
+}
 
-class ThenClause(private val mockery: Mockery, private val block: () -> Unit) {
-    fun thenExpect(expectations: Expektations.() -> Unit) {
-        mockery.expecting(expectations)
-        block()
-        mockery.assertIsSatisfied()
+class BetterSyntax(private val mockery: Mockery) {
+    private var block: (() -> Unit)? = null
+
+    fun during(block: () -> Unit) {
+        this.block = block
     }
+
+    fun expecting(expectations: Expektations.() -> Unit) {
+        mockery.expecting(expectations)
+        consumeBlock()
+    }
+
+    fun verify(expectations: Expektations.() -> Unit)  = expecting(expectations)
+    fun given(expectations: Expektations.() -> Unit)  = expecting(expectations)
+
+    private fun consumeBlock() {
+        block?.let {
+            it()
+        }
+        block = null
+    }
+
 }
+
 
 
 
