@@ -5,9 +5,7 @@ import org.jmock.lib.action.CustomAction
 
 class InvokeAction<out R>(private val description: String, private val block: (Invocation) -> R)
 : TypedAction<R> by UntypedInvokeAction(description, block).asTyped()
-{
-    constructor(description: String, block: () -> R) : this(description, { ignoredInvocation -> block() })
-}
+
 
 class UntypedInvokeAction<out R>(description: String, private val lambda: (Invocation) -> R) : CustomAction(description) {
 

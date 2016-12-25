@@ -3,6 +3,7 @@ package com.oneeyedmen.amock
 import com.natpryce.hamkrest.Matcher
 import org.jmock.Expectations
 import org.jmock.Sequence
+import org.jmock.api.Invocation
 import kotlin.reflect.KProperty1
 
 @Suppress("unused")
@@ -17,7 +18,9 @@ class Expektations: Expectations() {
 
     infix fun <T> WillThunker<T>.will(action: TypedAction<T>) = super.will(action)
 
-    infix fun <T> WillThunker<T>.will(block: () -> T) = super.will(invoke("invoke a block", block))
+    infix fun <T> WillThunker<T>.will(block: (Invocation) -> T) = super.will(invoke("invoke a block", block))
+
+    infix fun <T> WillThunker<T>.willDo(block: Invocation.() -> T) = will(block)
 
     fun Any?.inSequence(sequence: Sequence) = super.inSequence(sequence)
 

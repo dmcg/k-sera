@@ -48,32 +48,18 @@ class AmockExampleTests {
     @Test fun `match parameters with Hamkrest`() {
         mockery.expecting {
             oneOf(charSequence).get(0).which will returnValue('*')
-            oneOf(charSequence).get(with(greaterThan(0))).which will returnValue('-')
-            oneOf(charSequence).get(with(anything)).which will returnValue('&')
+            oneOf(charSequence)[with(greaterThan(0))].which will returnValue('-')
+            oneOf(charSequence)[with(anything)].which will returnValue('&')
         }
         assertEquals('-', charSequence.get(1))
         assertEquals('*', charSequence.get(0))
         assertEquals('&', charSequence.get(99))
     }
 
-    @Test fun `which-will can take a lambda`() {
-        var count = 0
+    @Test fun `which-will can take a block and access the call invocation`() {
         mockery.expecting {
-            allowing(charSequence)[with(isA<Int>())].which will {
-                count++
-                ' '
-            }
-        }
-        assertEquals(' ', charSequence[0])
-        assertEquals(' ', charSequence[1])
-        assertEquals(2, count)
-    }
-
-    @Test fun `invoke action can take a lambda to do complicated things`() {
-        mockery.expecting {
-            allowing(charSequence)[with(isA<Int>())].which will invoke("return alternating values") { invocation ->
-                val index = invocation.getParameter(0) as Int
-                if (index % 2 == 0) '+' else '-'
+            allowing(charSequence)[with(anything)].which will { invocation ->
+                if (invocation.getParameter(0) as Int % 2 == 0) '+' else '-'
             }
         }
         assertEquals('+', charSequence[42])

@@ -96,6 +96,4 @@ interface TestSubject {
 }
 
 @Suppress("UNCHECKED_CAST")
-private fun <T> returnFirstParameter(): InvokeAction<T> {
-    return invoke<T>("") { invocation -> invocation.getParameter(0) as T }
-}
+private fun <T> returnFirstParameter(): InvokeAction<T> = invoke("return first parameter") { it.getParameter(0) as T }
