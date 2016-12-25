@@ -3,6 +3,7 @@ package com.oneeyedmen.amock
 import com.natpryce.hamkrest.anything
 import com.natpryce.hamkrest.greaterThan
 import com.natpryce.hamkrest.isA
+import com.natpryce.hamkrest.lessThan
 import org.jmock.integration.junit4.JUnitRuleMockery
 import org.junit.Rule
 import org.junit.Test
@@ -45,26 +46,38 @@ class AmockExampleTests {
         }
     }
 
+    @Test fun `special operators work well`() {
+        mockery.expecting {
+            allowing(charSequence)[0].which will returnValue('*')
+        }
+        assertEquals('*', charSequence.get(0))
+    }
+
     @Test fun `match parameters with Hamkrest`() {
         mockery.expecting {
-            oneOf(charSequence).get(0).which will returnValue('*')
-            oneOf(charSequence)[with(greaterThan(0))].which will returnValue('-')
-            oneOf(charSequence)[with(anything)].which will returnValue('&')
+            allowing(charSequence)[with(lessThan(0))].which will returnValue('-')
+            allowing(charSequence)[with(anything)].which will returnValue('+')
         }
-        assertEquals('-', charSequence.get(1))
-        assertEquals('*', charSequence.get(0))
-        assertEquals('&', charSequence.get(99))
+        assertEquals('-', charSequence.get(-1))
+        assertEquals('+', charSequence.get(99))
     }
 
     @Test fun `which-will can take a block and access the call invocation`() {
         mockery.expecting {
             allowing(charSequence)[with(anything)].which will { invocation ->
-                if (invocation.getParameter(0) as Int % 2 == 0) '+' else '-'
+                (invocation.getParameter(0) as Int).toChar()
             }
         }
-        assertEquals('+', charSequence[42])
-        assertEquals('-', charSequence[43])
-        assertEquals('-', charSequence[-1])
+        assertEquals(' ', charSequence[32])
+        assertEquals('A', charSequence[65])
+    }
+
+    @Test fun `you can mock functions too`() {
+        val f = mockery.mock<(Any?) -> String>()
+        mockery.expecting {
+            allowing(f).invoke(with(anything)).which will returnValue("banana")
+        }
+        assertEquals("banana", f("ignored"))
     }
 
     // Shall we play a game?
