@@ -8,8 +8,6 @@ import org.jmock.api.Action
 inline fun <reified T: Any> Mockery.mock(): T = mock(T::class.java)
 inline fun <reified T: Any> Mockery.mock(name: String): T = mock(T::class.java, name)
 
-fun org.jmock.Mockery.given(expectations: Expektations.() -> Unit): Mockery = expecting(expectations)
-
 fun Mockery.expecting(expectations: Expektations.() -> Unit) = this.apply {
     checking(Expektations().apply(expectations))
 }
