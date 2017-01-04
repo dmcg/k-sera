@@ -3,11 +3,11 @@
 
     <groupId>com.oneeyedmen</groupId>
     <artifactId>k-sera</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version>
     <packaging>jar</packaging>
 
     <name>k-sera</name>
-    <description>An Kotlin Wrapper for JMock</description>
+    <description>A Kotlin Wrapper for JMock</description>
     <url>https://github.com/dmcg/k-sera</url>
     <licenses>
         <license>
@@ -33,7 +33,7 @@
         <connection>scm:git:git@github.com:dmcg/k-sera.git</connection>
         <developerConnection>scm:git:git@github.com:dmcg/k-sera.git</developerConnection>
         <url>https://github.com/dmcg/k-sera</url>
-      <tag>HEAD</tag>
+      <tag>k-sera-1.0.0</tag>
     </scm>
 
     <dependencies>
