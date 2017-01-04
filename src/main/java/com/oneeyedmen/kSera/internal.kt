@@ -1,4 +1,4 @@
-package com.oneeyedmen.amock
+package com.oneeyedmen.kSera
 
 import kotlin.reflect.KClass
 

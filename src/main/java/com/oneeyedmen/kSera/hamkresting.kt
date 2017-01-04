@@ -1,4 +1,4 @@
-package com.oneeyedmen.amock
+package com.oneeyedmen.kSera
 
 import com.natpryce.hamkrest.MatchResult
 import com.natpryce.hamkrest.Matcher

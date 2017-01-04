@@ -2,13 +2,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.oneeyedmen</groupId>
-    <artifactId>amock</artifactId>
-    <version>1.0.1-SNAPSHOT</version>
+    <artifactId>k-sera</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>amock</name>
+    <name>k-sera</name>
     <description>An Kotlin Wrapper for JMock</description>
-    <url>https://github.com/dmcg/amock</url>
+    <url>https://github.com/dmcg/k-sera</url>
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
@@ -30,9 +30,9 @@
     </properties>
 
     <scm>
-        <connection>scm:git:git@github.com:dmcg/amock.git</connection>
-        <developerConnection>scm:git:git@github.com:dmcg/amock.git</developerConnection>
-        <url>https://github.com/dmcg/amock</url>
+        <connection>scm:git:git@github.com:dmcg/k-sera.git</connection>
+        <developerConnection>scm:git:git@github.com:dmcg/k-sera.git</developerConnection>
+        <url>https://github.com/dmcg/k-sera</url>
       <tag>HEAD</tag>
     </scm>
 
@@ -141,7 +141,7 @@
                     <sourceLinks>
                         <link>
                             <dir>${project.basedir}/src/main/kotlin</dir>
-                            <url>http://github.com/dmcg/amock</url>
+                            <url>http://github.com/dmcg/k-sera</url>
                         </link>
                     </sourceLinks>
                 </configuration>

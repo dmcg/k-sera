@@ -1,6 +1,6 @@
 @file:Suppress("PLATFORM_CLASS_MAPPED_TO_KOTLIN")
 
-package com.oneeyedmen.amock
+package com.oneeyedmen.kSera
 
 import com.natpryce.hamkrest.absent
 import com.natpryce.hamkrest.equalTo

@@ -1,4 +1,4 @@
-package com.oneeyedmen.amock
+package com.oneeyedmen.kSera
 
 import com.natpryce.hamkrest.Matcher
 import org.jmock.Expectations
@@ -31,7 +31,7 @@ class Expektations: Expectations() {
     val <T> T.isProperty: PropertyThunker<T> get() = PropertyThunker()
     class PropertyThunker<T>()
 
-    infix fun <T> PropertyThunker<T>.withValue(value: T) = super.will(com.oneeyedmen.amock.returnValue(value))
+    infix fun <T> PropertyThunker<T>.withValue(value: T) = super.will(com.oneeyedmen.kSera.returnValue(value))
 }
 
 

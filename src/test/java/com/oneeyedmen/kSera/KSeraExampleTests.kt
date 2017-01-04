@@ -1,4 +1,4 @@
-package com.oneeyedmen.amock
+package com.oneeyedmen.kSera
 
 import com.natpryce.hamkrest.anything
 import com.natpryce.hamkrest.greaterThan
@@ -12,7 +12,7 @@ import kotlin.test.assertFails
 
 
 //README_TEXT
-class AmockExampleTests {
+class KSeraExampleTests {
 
     // Create a mockery using the usual JMock rule
     @Rule @JvmField val mockery = JUnitRuleMockery()

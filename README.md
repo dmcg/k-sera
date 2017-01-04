@@ -1,14 +1,14 @@
 
-Amock
+K-Sera
 =====
 
 A JMock wrapper for Kotlin.
 
-[AmockExampleTests](src/test/java/com/oneeyedmen/amock/AmockExampleTests.kt)
+[KSeraExampleTests](src/test/java/com/oneeyedmen/kSera/KSeraExampleTests.kt)
 shows how to write a test.
 
 ```kotlin
-class AmockExampleTests {
+class KSeraExampleTests {
 
     // Create a mockery using the usual JMock rule
     @Rule @JvmField val mockery = JUnitRuleMockery()
@@ -42,38 +42,38 @@ class AmockExampleTests {
         }
     }
 
-    @Test fun `match parameters with Hamkrest`() {
+    @Test fun `special operators work well`() {
         mockery.expecting {
-            oneOf(charSequence).get(0).which will returnValue('*')
-            oneOf(charSequence).get(with(greaterThan(0))).which will returnValue('-')
+            allowing(charSequence)[0].which will returnValue('*')
         }
-        assertEquals('-', charSequence.get(1))
         assertEquals('*', charSequence.get(0))
     }
 
-    @Test fun `which-will can take a lambda`() {
-        var count = 0
+    @Test fun `match parameters with Hamkrest`() {
         mockery.expecting {
-            allowing(charSequence)[with(isA<Int>())].which will {
-                count++
-                ' '
-            }
+            allowing(charSequence)[with(lessThan(0))].which will returnValue('-')
+            allowing(charSequence)[with(anything)].which will returnValue('+')
         }
-        assertEquals(' ', charSequence[0])
-        assertEquals(' ', charSequence[1])
-        assertEquals(2, count)
+        assertEquals('-', charSequence.get(-1))
+        assertEquals('+', charSequence.get(99))
     }
 
-    @Test fun `invoke action can take a lambda to do complicated things`() {
+    @Test fun `which-will can take a block and access the call invocation`() {
         mockery.expecting {
-            allowing(charSequence)[with(isA<Int>())].which will invoke("return alternating values") { invocation ->
-                val index = invocation.getParameter(0) as Int
-                if (index % 2 == 0) '+' else '-'
+            allowing(charSequence)[with(anything)].which will { invocation ->
+                (invocation.getParameter(0) as Int).toChar()
             }
         }
-        assertEquals('+', charSequence[42])
-        assertEquals('-', charSequence[43])
-        assertEquals('-', charSequence[-1])
+        assertEquals(' ', charSequence[32])
+        assertEquals('A', charSequence[65])
+    }
+
+    @Test fun `you can mock functions too`() {
+        val f = mockery.mock<(Any?) -> String>()
+        mockery.expecting {
+            allowing(f).invoke(with(anything)).which will returnValue("banana")
+        }
+        assertEquals("banana", f("ignored"))
     }
 
     // Shall we play a game?
@@ -83,29 +83,37 @@ class AmockExampleTests {
         mockery.mock<Key>("key2"),
         mockery.mock<Missile>())
 
-    @Test fun `specify expectations before and after action`() {
-        mockery.given {
-            allowing(controlPanel.key1).isTurned.which will returnValue(true)
-            allowing(controlPanel.key2).isTurned.which will returnValue(true)
-        }.whenRunning {
-            controlPanel.pressButton()
-        }.thenExpect {
-            oneOf(controlPanel.missile).launch()
-        }
-    }
 
-    @Test fun `better check we're safe`() {
-        mockery.given {
-            allowing(controlPanel.key1).isTurned.which will returnValue(true)
-            allowing(controlPanel.key2).isTurned.which will returnValue(false)
-        }.whenRunning {
-            controlPanel.pressButton()
-        }.thenExpect {
-            never(controlPanel.missile).launch()
+    @Test fun `block syntax for expecting-during-verify`() =
+        mockery {
+            expecting {
+                allowing(controlPanel.key1).isTurned.which will returnValue(true)
+                allowing(controlPanel.key2).isTurned.which will returnValue(true)
+            }
+            during {
+                controlPanel.pressButton()
+            }
+            verify {
+                oneOf(controlPanel.missile).launch()
+            }
         }
-    }
+
+    @Test fun `given-that allows property references`() =
+        mockery {
+            given {
+                that(controlPanel.key1, Key::isTurned).isProperty withValue (true)
+                that(controlPanel.key2, Key::isTurned).isProperty withValue (false)
+            }
+            during {
+                controlPanel.pressButton()
+            }
+            verify {
+                never(controlPanel.missile).launch()
+            }
+        }
+
 }
 ```
 
-Amock is available at Maven central.
+k-sera is available at Maven central.
 

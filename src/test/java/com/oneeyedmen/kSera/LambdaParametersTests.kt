@@ -1,4 +1,4 @@
-package com.oneeyedmen.amock
+package com.oneeyedmen.kSera
 
 import org.jmock.api.ExpectationError
 import org.jmock.integration.junit4.JUnitRuleMockery

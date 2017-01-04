@@ -1,9 +1,6 @@
-package com.oneeyedmen.amock
+package com.oneeyedmen.kSera
 
-import org.jmock.Expectations
 import org.jmock.Mockery
-import org.jmock.Sequence
-import org.jmock.api.Action
 
 inline fun <reified T: Any> Mockery.mock(): T = mock(T::class.java)
 inline fun <reified T: Any> Mockery.mock(name: String): T = mock(T::class.java, name)

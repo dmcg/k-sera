@@ -8,17 +8,17 @@ function write_file_contents {
 }
 
 echo "
-Amock
+K-Sera
 =====
 
 A JMock wrapper for Kotlin.
 
-[AmockExampleTests](src/test/java/com/oneeyedmen/amock/AmockExampleTests.kt)
+[KSeraExampleTests](src/test/java/com/oneeyedmen/kSera/KSeraExampleTests.kt)
 shows how to write a test.
 "  > README.md
 
-write_file_contents src/test/java/com/oneeyedmen/amock/AmockExampleTests.kt >> README.md
+write_file_contents src/test/java/com/oneeyedmen/kSera/KSeraExampleTests.kt >> README.md
 
 echo "
-Amock is available at Maven central.
+k-sera is available at Maven central.
 " >> README.md
