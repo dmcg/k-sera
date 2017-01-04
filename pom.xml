@@ -3,7 +3,7 @@
 
     <groupId>com.oneeyedmen</groupId>
     <artifactId>k-sera</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>k-sera</name>
@@ -33,7 +33,7 @@
         <connection>scm:git:git@github.com:dmcg/k-sera.git</connection>
         <developerConnection>scm:git:git@github.com:dmcg/k-sera.git</developerConnection>
         <url>https://github.com/dmcg/k-sera</url>
-      <tag>k-sera-1.0.0</tag>
+      <tag>HEAD</tag>
     </scm>
 
     <dependencies>
